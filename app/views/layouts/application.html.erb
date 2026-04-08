@@ -8,25 +8,31 @@
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-    <%= link_to "Cart (#{session[:cart]&.values&.sum || 0})", cart_path, class: "..." %>
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body class="bg-gradient-to-r from-zinc-600 to-zinc-800">
-    <main class="container mx-auto mt-28 px-5 flex">
+
+    <nav class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 z-50 w-full">
+      <%= link_to "Luna Blanks", root_path, class: "text-xl font-bold tracking-tight text-gray-900" %>
+      <div class="flex items-center gap-6">
+        <%= link_to "Shop", products_path, class: "text-sm text-gray-600 hover:text-gray-900 transition-colors" %>
+        <%= link_to "Account", "#", class: "text-sm text-gray-600 hover:text-gray-900 transition-colors" %>
+        <%= link_to "Cart (#{session[:cart]&.values&.sum || 0})", cart_path,
+              class: "text-sm bg-black text-white px-4 py-2 rounded-xl hover:bg-gray-800 transition-colors" %>
+      </div>
+    </nav>
+
+    <main class="container mx-auto mt-8 px-5">
       <%= yield %>
     </main>
+
   </body>
 </html>
