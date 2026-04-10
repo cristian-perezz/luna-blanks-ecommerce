@@ -1,0 +1,29 @@
+<% content_for :title, "Products" %>
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <div class = "flex items-center justify-between mb-8">
+    <h1 class="font-bold text-4xl text-center mb-8">Shop</h1>
+
+      <%= form_with url: products_path, method: :get, local: true do %>
+        <%= select_tag :sort,
+          options_for_select([
+            ["Sort by: Low to High", "low_to_high"],
+            ["Sort by: High to Low", "high_to_low"],
+            ["Sort by: Newest Edition ", "newest_to_oldest"],
+            ["Sort by: Oldest Edition", "oldest_to_newest"]
+          ], params[:sort]),
+          class: "text-sm border border-gray-300 bg-white text-black px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-black",
+          onchange: "this.form.submit();"
+        %>
+      <% end %>
+   
+    <%= link_to "+ New Product", new_product_path, 
+        class: "text-sm bg-white text-black px-4 py-2 rounded-xl hover:bg-gray-100 transition-colors" %>
+    </div>
+      <div id="products" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @products.each do |product| %>
+      <%= render product %>
+
+
+    <% end %>
+  </div>
+</div>

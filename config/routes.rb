@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "products/index"
   get "cart/show"
   resources :products
   post '/cart/add', to: 'cart#add', as: 'cart_add'
