@@ -1,6 +1,31 @@
-<div class="bg-white p-4 rounded-xl shadow">
-  <h2 class="text-lg font-bold"><%= product.name %></h2>
-  <p class="text-gray-600">$<%= product.price %></p>
+<%= link_to product_path(product), class: "block group" do %>
+  <div class="bg-white rounded-2xl shadow hover:shadow-md transition-shadow overflow-hidden">
 
-  <%= link_to "View", product_path(product), class: "text-blue-500" %>
-</div>
+    <% if product.images.attached? %>
+      <div class="bg-gray-50 overflow-hidden">
+        <%= image_tag product.images.first,
+              class: "w-full object-cover h-72 group-hover:scale-105 transition-transform duration-300" %>
+      </div>
+    <% else %>
+      <div class="bg-gray-100 h-72 flex items-center justify-center">
+        <span class="text-gray-400 text-sm">No image</span>
+      </div>
+    <% end %>
+
+    <div class="p-4">
+      <h2 class="text-lg font-bold text-gray-900"><%= product.name %></h2>
+
+      <p class="text-sm text-gray-500 mt-1 line-clamp-2">
+        <%= product.description.to_plain_text.truncate(100) %>
+      </p>
+
+      <div class="flex items-center justify-between mt-4">
+        <span class="text-lg font-semibold text-gray-900">$<%= product.price %></span>
+        <span class="text-sm bg-black text-white px-4 py-2 rounded-xl group-hover:bg-gray-800 transition-colors">
+          Add to Cart
+        </span>
+      </div>
+    </div>
+
+  </div>
+<% end %>
