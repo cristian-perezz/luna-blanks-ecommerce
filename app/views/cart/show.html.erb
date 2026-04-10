@@ -19,7 +19,8 @@
           </div>
           <%= button_to "Remove", cart_remove_path(product_id: item[:product].id),
                 method: :delete,
-                class: "text-red-400 text-sm hover:text-red-600 bg-transparent border-none cursor-pointer" %>
+                form_class: "inline",
+                class: "text-red-500 text-sm hover:text-red-700 bg-transparent border-none cursor-pointer" %>
         </div>
       <% end %>
     </div>
