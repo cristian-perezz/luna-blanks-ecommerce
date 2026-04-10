@@ -6,6 +6,8 @@ class CartController < ApplicationController
   def add
     session[:cart] ||= {}
     id = params[:product_id].to_s
+    size = params[:size].presence || "N/A"
+    key = "#{id}_#{size}"
     session[:cart][id] = (session[:cart][id] || 0) + 1
     redirect_to cart_path, notice: "Added to cart!"
   end
@@ -19,7 +21,8 @@ class CartController < ApplicationController
 
   def cart_products
     return [] unless session[:cart].present?
-    session[:cart].filter_map do |id, qty|
+    session[:cart].filter_map do |key, qty|
+      id, size = key.split("_", 2)
       product = Product.find_by(id: id)
       { product: product, quantity: qty } if product
     end

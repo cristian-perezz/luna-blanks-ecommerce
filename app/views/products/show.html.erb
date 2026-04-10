@@ -30,26 +30,55 @@
         <%= @product.description %>
       </div>
 
-      <div class="mt-2">
-        <h3 class="text-sm font-semibold mb-2">Sizes</h3>
-
-        <div class ="flex flex-wrap gap-3 mt-2">
-          <% ["S", "M", "L", "XL"].each do |size| %>
-            <label class="cursor-pointer">
-              <input type="radio" name="size" value="<%= size %>" class="peer hidden", style="display: none">
-
-              <div class="px-4 py-1 text-center flex items-center justify-center border border-gray-300 text-sm font-medium cursor-pointer transition hover:bg-gray-100
-                  peer-checked:bg-blue-100 peer-checked:text-black peer-checked:border-blue-100">
+      <%# SIZE %>
+        <div class="mt-2">
+          <h3 class="text-sm font-semibold mb-2">Sizes</h3>
+          <div class="flex flex-wrap gap-3 mt-2">
+            <% ["S", "M", "L", "XL"].each do |size| %>
+              <button type="button"
+                onclick="selectSize(this, '<%= size %>')"
+                class="size-btn px-4 py-1 border border-gray-300 text-sm font-medium transition hover:bg-gray-100">
                 <%= size %>
-              </div>
-            </label>
-          <% end %>
+              </button>
+            <% end %>
+          </div>
+          <p id="size-error" class="text-red-500 text-xs mt-2 hidden">Please select a size before adding to cart.</p>
         </div>
-      </div>
 
-      <%= button_to "Add to Cart", cart_add_path(product_id: @product.id),
-            method: :post,
-            class: "mt-4 bg-black text-white text-sm px-6 py-3 rounded-xl hover:bg-gray-800 transition-colors w-full text-center" %>
+        <%# ADD TO CART %>
+        <%= form_with url: cart_add_path, method: :post, id: "add-to-cart-form" do |f| %>
+          <%= hidden_field_tag :product_id, @product.id %>
+          <%= hidden_field_tag :size, "", id: "selected-size" %>
+          <%= f.submit "Add to Cart",
+                class: "mt-4 bg-black text-white text-sm px-6 py-3 rounded-xl hover:bg-gray-800 transition-colors w-full text-center cursor-pointer" %>
+        <% end %>
+
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+  function selectSize(btn, size) {
+    // Remove highlight from all size buttons
+    document.querySelectorAll(".size-btn").forEach(b => {
+      b.classList.remove("bg-black", "text-white", "border-black");
+      b.classList.add("border-gray-300");
+    });
+
+    btn.classList.add("bg-black", "text-white", "border-black");
+    btn.classList.remove("border-gray-300");
+
+    document.getElementById("selected-size").value = size;
+
+    document.getElementById("size-error").classList.add("hidden");
+  }
+
+  document.getElementById("add-to-cart-form").addEventListener("submit", function(e) {
+    const size = document.getElementById("selected-size").value;
+    if (!size) {
+      e.preventDefault();
+      document.getElementById("size-error").classList.remove("hidden");
+    }
+  });
+</script>
