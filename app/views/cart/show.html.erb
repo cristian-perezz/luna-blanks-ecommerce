@@ -1,29 +1,31 @@
-<div class="max-w-2xl mx-auto px-4 py-8">
-  <h1 class="font-bold text-3xl mb-6">Your Cart</h1>
+<div class="max-w-3xl mx-auto px-4 py-">
+  <%= link_to "← Back to Shop", products_path, class: "text-l text-gray-300 hover:text-white mb-6 inline-block" %>
+  <h1 class="font-bold text-3xl text-white mb-6">Your Cart</h1>
 
+  <div class="bg-white rounded-3xl p-8">
   <% if @cart_items.empty? %>
-    <p class="text-gray-500">Your cart is empty. <%= link_to "Keep shopping", products_path, class: "text-black underline" %></p>
+    <p class="text-gray-500">Your cart is empty. <%= link_to "Keep Shopping", products_path, class: "text-black bold underline" %></p>
   <% else %>
     <div class="space-y-4">
       <% @cart_items.each do |item| %>
-        <div class="flex items-center gap-4 border border-gray-200 rounded-xl p-4">
+        <div class="flex items-center gap-4 border border-gray-100 rounded-2xl p-4">
           <% if item[:product].images.attached? %>
-            <%= image_tag item[:product].images.first, class: "w-20 h-20 object-cover rounded-lg" %>
+            <%= image_tag item[:product].images.first, class: "w-20 h-20 object-cover rounded-xl" %>
           <% end %>
           <div class="flex-1">
-            <p class="font-semibold"><%= item[:product].name %></p>
+            <p class="font-semibold text-gray-900"><%= item[:product].name %></p>
             <p class="text-gray-500 text-sm">Qty: <%= item[:quantity] %></p>
-            <p class="font-bold">$<%= (item[:product].price * item[:quantity]).round(2) %></p>
+            <p class="font-bold text-gray-900">$<%= (item[:product].price * item[:quantity]).round(2) %></p>
           </div>
           <%= button_to "Remove", cart_remove_path(product_id: item[:product].id),
                 method: :delete,
-                class: "text-red-500 text-sm hover:text-red-700" %>
+                class: "text-red-400 text-sm hover:text-red-600 bg-transparent border-none cursor-pointer" %>
         </div>
       <% end %>
     </div>
 
-    <div class="mt-6 border-t pt-4">
-      <p class="text-xl font-bold">
+    <div class="border-t border-gray-100 pt-4 mt-4">
+      <p class="text-xl font-bold text-gray-900">
         Total: $<%= @cart_items.sum { |i| i[:product].price * i[:quantity] }.round(2) %>
       </p>
     </div>

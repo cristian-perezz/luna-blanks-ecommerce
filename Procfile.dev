@@ -1,3 +1,7 @@
 web: ruby bin/rails server
 css: ruby bin/rails tailwindcss:watch
+<<<<<<< HEAD
 css: bin/rails tailwindcss:watch
+=======
+css: bin/rails tailwindcss:watch
+>>>>>>> 06e6a671f7479e74179acb0a1eac5068b8a1aec0
